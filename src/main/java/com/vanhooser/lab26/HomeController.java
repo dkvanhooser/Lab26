@@ -1,6 +1,7 @@
 package com.vanhooser.lab26;
 
 import java.util.Map;
+import java.util.Collections;
 
 import javax.validation.Valid;
 
@@ -10,56 +11,40 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-
-/**
- * Handles requests for the application home page.
- */
 @Controller
-public class HomeController {
+public class HomeController {		
 	
-
-	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	
-	//		model.addAttribute("serverTime", formattedDate );
-		
-	
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String welcome(Model model) {
-		
-		
-		
-		return "index";
-	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
-		
-		
-		
+	public String welcome(Map<String, Object> model) {
+		User user = new User();
+		model.put("userForm", user);
 		return "index";
 	}
+	@RequestMapping(value = "/loginfailed", method = RequestMethod.POST)
+	public String welcomeBack(Map<String, Object> model) {
+		User user = new User();
+		model.put("userForm", user);
+		return "index";
+	}
+	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String doLogin(@Valid @ModelAttribute("userForm") User userForm,
+    public ModelAndView doLogin(@Valid @ModelAttribute("userForm") User userForm,
             BindingResult result, Map<String, Object> model) {
- 
+		ModelAndView mv;
         if (result.hasErrors()) {
-            return "welcome";
+        	mv = new ModelAndView("index");
+            return mv;
         }
- 
-        return "welcome";
-    }
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model) {
-		
-		
-		
-		return "index";
+        if(DAO.userAndPassValidator(userForm)){
+        	 mv = new ModelAndView("welcome");
+        	return mv;	
+        }else 
+        
+	return new ModelAndView("loginfailed");
 	}
-	
 }

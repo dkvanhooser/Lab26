@@ -1,7 +1,12 @@
 package com.vanhooser.lab26;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class User {
+	@NotEmpty
 	private String username;
+	@NotEmpty
 	private String password;
 	private String email;
 	private String fullname;
@@ -26,6 +31,7 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getEmail() {
 		return email;
 	}

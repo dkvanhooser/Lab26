@@ -8,6 +8,7 @@
 <title>Login Failed!</title>
 </head>
 <body>
-<h1>Login Unsuccessful! ${loginFailReason}</h1>
+<h1>Login Unsuccessful!</h1>
+<a href="<c:url value="/login" />" >Click here to login again!</a>
 </body>
 </html>
